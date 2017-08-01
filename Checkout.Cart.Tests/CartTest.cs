@@ -34,6 +34,17 @@ namespace Checkout.Cart.Tests
         }
 
         [Fact]
+        public void ThatEndpointsRequireAuthorisation()
+        {
+            //Given
+            var requestMessage = BuildDefaultRequestWithNoAuthorisation("/api/cart/new", HttpMethod.Post, null);
+            //When
+            var result = _httpClient.SendAsync(requestMessage).Result;
+            //Then
+            result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
         public void ThatNewCartEndpointRespondsWithANewEmptyCart()
         {
             //Given
@@ -307,6 +318,13 @@ namespace Checkout.Cart.Tests
         }
 
         private HttpRequestMessage BuildDefaultRequest(string endpoint, HttpMethod method, object payLoad)
+        {
+            var requestMessage = BuildDefaultRequestWithNoAuthorisation(endpoint, method, payLoad);
+            requestMessage.Headers.Add("Authorization", "sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d");
+
+            return requestMessage;
+        }
+        private HttpRequestMessage BuildDefaultRequestWithNoAuthorisation(string endpoint, HttpMethod method, object payLoad)
         {
             var requestMessage = new HttpRequestMessage(method, endpoint);
             var serialisedPayload = JsonConvert.SerializeObject(payLoad);

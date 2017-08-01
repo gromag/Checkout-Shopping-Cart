@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Checkout.Cart.Abstracts;
 using Checkout.Cart.Models;
@@ -22,7 +19,6 @@ namespace Checkout.Cart.RestApi.Controllers
         [HttpPost("new")]
         public Basket New()
         {
-
             var output = this._repository.New();
 
             RespondWith(HttpStatusCode.Created);

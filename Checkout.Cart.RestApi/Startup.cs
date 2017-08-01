@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Checkout.Cart.Abstracts;
 using Checkout.Cart.Repositories;
+using Checkout.Cart.RestApi.Helpers;
 
 namespace Checkout.Cart.RestApi
 {
@@ -30,11 +28,13 @@ namespace Checkout.Cart.RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+                options.Filters.Add(typeof(AuthorisationRequiredFilter))
+            );
 
             // Add dependency injection
             services.AddSingleton<ICartRepository, CartRepository>();
-
+            services.AddSingleton<IConfiguration>(Configuration);
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
 
@@ -44,6 +44,8 @@ namespace Checkout.Cart.RestApi
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.CookieHttpOnly = true;
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
-    <AssemblyName>Checkout.Basket.RestApi</AssemblyName>
-    <RootNamespace>Checkout.Basket.RestApi</RootNamespace>
+    <AssemblyName>Checkout.Cart.RestApi</AssemblyName>
+    <RootNamespace>Checkout.Cart.RestApi</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
